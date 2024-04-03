@@ -1,0 +1,9 @@
+.studentCard {
+	> * {
+		margin-bottom: 8 px;
+	}
+
+	&__name {
+		font-weight: 600;
+	}
+}
