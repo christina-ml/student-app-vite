@@ -1,3 +1,5 @@
+@import './designUtils/colors';
+
 body {
-    background-color: #EFEFEF;
+    background-color: $background-gray;
 }
