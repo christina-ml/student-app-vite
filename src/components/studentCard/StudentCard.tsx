@@ -17,9 +17,9 @@ interface StudentCard {
 	student: Student;
 }
 
-const StudentCard = (student: StudentCard) => {
+const StudentCard = ({student}: StudentCard) => {
 	const { firstname, lastname, company, skill, pic, city, email, grades } =
-		student.student;
+		student;
 
 	// functions
 	// const calculateAverage = (grades: string[]) => {
