@@ -1,5 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import "./StudentCard.scss";
+import { FaPlus, FaMinus } from "react-icons/fa";
+
+/* 
+	Important Note: The endpoint for the deployed database API being used does not have grades.
+	Ideally, each student should have their own grades in the database.
+	This variable for `grades` is being hardcoded as an array, so that the app functionality does not break.
+*/
+const grades: string[] = ["78", "100", "92", "86", "89", "88", "91", "87"];
 
 interface Student {
 	id: number;
@@ -17,23 +25,27 @@ interface StudentCard {
 	student: Student;
 }
 
-const StudentCard = ({student}: StudentCard) => {
-	const { firstname, lastname, company, skill, pic, city, email, grades } =
-		student;
+const StudentCard = ({ student }: StudentCard) => {
+	// props deconstructed
+	const { firstname, lastname, company, skill, pic, city, email, 
+		// grades
+	} = student;
+
+	// hooks
+	const [showGrades, setShowGrades] = useState<boolean>(false);
+
+	// console.log(showGrades);
 
 	// functions
-	// const calculateAverage = (grades: string[]) => {
-	// let sum = 0;
+	const calculateAverage = (grades: string[]) => {
+		let sum: number = 0;
 
-	// grades.map(grade => {
-	//     sum += Number(grade);
-	// });
+		grades.map((grade: string) => {
+			sum += Number(grade);
+		});
 
-	// return sum / grades.length;
-
-	// 	const sum = grades.reduce((sum, val) => sum + Number(val), 0);
-	// 	return sum / grades.length;
-	// };
+		return sum / grades.length;
+	};
 
 	return (
 		<div className="studentCard">
@@ -44,18 +56,41 @@ const StudentCard = ({student}: StudentCard) => {
 				<div className="studentCard__name">
 					{`${firstname}  ${lastname}`}
 				</div>
+				<div className="studentCard__infoLine">Email: {email}</div>
+				<div className="studentCard__infoLine">Company: {company}</div>
+				<div className="studentCard__infoLine">Skill: {skill}</div>
 				<div className="studentCard__infoLine">
-					Email: {email}
+					Average: {calculateAverage(grades)}%
 				</div>
-				<div className="studentCard__infoLine">
-					Company: {company}
+				<div
+					className="studentCard__gradesList"
+					style={{ display: showGrades ? "block" : "none" }}
+				>
+					{grades.map((grade: string, index: number) => {
+						return (
+							<div key={index}>
+								<span>Test {index + 1}:</span>
+								<span>{grade}%</span>
+							</div>
+						);
+					})}
 				</div>
-				<div className="studentCard__infoLine">
-					Skill: {skill}
-				</div>
-				<div className="studentCard__infoLine">
-					{/* Average: {calculateAverage(grades)}% */}
-				</div>
+			</div>
+			<div className="studentCard__toggleIcons">
+				{!showGrades && (
+					<FaPlus
+						className="studentCard__toggleIcon"
+						onClick={() => setShowGrades(true)}
+						size="1.8em"
+					/>
+				)}
+				{showGrades && (
+					<FaMinus
+						className="studentCard__toggleIcon"
+						onClick={() => setShowGrades(false)}
+						size="1.8em"
+					/>
+				)}
 			</div>
 		</div>
 	);
