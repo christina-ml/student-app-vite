@@ -34,8 +34,6 @@ const StudentCard = ({ student }: StudentCard) => {
 	// hooks
 	const [showGrades, setShowGrades] = useState<boolean>(false);
 
-	// console.log(showGrades);
-
 	// functions
 	const calculateAverage = (grades: string[]) => {
 		let sum: number = 0;
