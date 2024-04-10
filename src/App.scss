@@ -1,5 +1,15 @@
-@import './designUtils/colors';
+@import "./designUtils/colors";
 
 body {
-    background-color: $background-gray;
+	background-color: $background-gray;
+}
+
+.App {
+	margin: 20px;
+}
+
+@media only screen and (max-width: 440px) {
+	.App {
+		margin: 0;
+	}
 }
