@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 
 import StudentCard from "../components/studentCard/StudentCard";
@@ -33,6 +33,10 @@ const StudentDetailPage = () => {
 	const location = useLocation();
 	const [student, setStudent] = useState<Student>(initialStudent);
 
+	const studentId: string | undefined = params.studentId;
+
+	// with the student Id, we can fetch student info
+	// from our API
 	useEffect(() => {
 		if (location.state?.student) {
 			setStudent(location.state?.student);
@@ -43,12 +47,7 @@ const StudentDetailPage = () => {
 					setStudent(data);
 				});
 		}
-	}, []);
-
-	const studentId = params.studentId;
-
-	// with the student Id, we can fetch student info
-	// from our API
+	}, [location.state?.student, studentId]);
 
 	return (
 		<div className="studentDetailPage">

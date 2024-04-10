@@ -34,7 +34,7 @@ const StudentCard = ({ student }: StudentCard) => {
 		company,
 		skill,
 		pic,
-		city,
+		// city,
 		email,
 		// grades
 	} = student;
