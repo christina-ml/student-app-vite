@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import SearchBar from "../searchBar/SearchBar";
+// import SearchBar from "../searchBar/SearchBar";
+import SingleTextInput from "../singleTextInput/SingleTextInput";
 import StudentCard from "../studentCard/StudentCard";
 import "./StudentList.scss";
 
@@ -8,8 +9,10 @@ const API = import.meta.env.VITE_API_URL;
 
 interface Student {
 	id: number;
-	firstname: string;
-	lastname: string;
+	// firstname: string;
+	// lastname: string;
+	firstName: string;
+	lastName: string;
 	company: string;
 	skill: string;
 	pic: string;
@@ -19,7 +22,7 @@ interface Student {
 
 const StudentList = () => {
 	// hooks
-	const [students, setStudents] = useState<Student[]>([]);
+	const [studentsList, setStudentList] = useState<Student[]>([]);
 	const [searchTerm, setSearchTerm] = useState<string>("");
 
 	// functions
@@ -27,9 +30,9 @@ const StudentList = () => {
 		// reach out to the backend
 		fetch(API)
 			.then((response) => response.json())
-			.then((data: Student[]) => {
-				console.log(data);
-				setStudents(data);
+			.then((data) => {
+				const studentData: Student[] = data.students;
+				setStudentList(studentData);
 			});
 		// get our students
 		// update our students hook with the new data
@@ -37,11 +40,12 @@ const StudentList = () => {
 
 	// when search term is updated, this component will rerender
 	// what to do on a re-render?
-	let filteredStudents: Student[] = students;
+	let filteredStudents: Student[] = studentsList;
 
 	if (searchTerm) {
-		filteredStudents = students.filter((student: Student) => {
-			const fullName: string = `${student.firstname} ${student.lastname}`;
+		filteredStudents = studentsList.filter((student: Student) => {
+			// const fullName: string = `${student.firstname} ${student.lastname}`;
+			const fullName: string = `${student.firstName} ${student.lastName}`;
 			const fullNameToLowerCase: string = fullName.toLowerCase();
 			const searchTermToLowerCase: string = searchTerm.toLowerCase();
 			return fullNameToLowerCase.includes(searchTermToLowerCase);
@@ -51,7 +55,10 @@ const StudentList = () => {
 	// return or TSX
 	return (
 		<div className="studentList">
-			<SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+			<SingleTextInput
+				searchTerm={searchTerm}
+				setSearchTerm={setSearchTerm}
+			/>
 			{filteredStudents.map((student: Student) => {
 				return <StudentCard key={student.id} student={student} />;
 			})}

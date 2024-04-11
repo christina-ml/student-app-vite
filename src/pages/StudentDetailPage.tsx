@@ -5,8 +5,10 @@ import StudentCard from "../components/studentCard/StudentCard";
 
 interface Student {
 	id: number;
-	firstname: string;
-	lastname: string;
+	// firstname: string;
+	// lastname: string;
+	firstName: string;
+	lastName: string;
 	company: string;
 	skill: string;
 	pic: string;
@@ -16,8 +18,10 @@ interface Student {
 
 const initialStudent: Student = {
 	id: 0,
-	firstname: "",
-	lastname: "",
+	// firstname: "",
+	// lastname: "",
+	firstName: "",
+	lastName: "",
 	company: "",
 	skill: "",
 	pic: "",
@@ -44,7 +48,8 @@ const StudentDetailPage = () => {
 			fetch(`${API}/students/${studentId}`)
 				.then((response) => response.json())
 				.then((data) => {
-					setStudent(data);
+					console.log("StudentDetailPage data:", data.data)
+					setStudent(data.data);
 				});
 		}
 	}, [location.state?.student, studentId]);
