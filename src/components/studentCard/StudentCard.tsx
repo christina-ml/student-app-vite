@@ -1,24 +1,21 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./StudentCard.scss";
+import SingleTextInput from "../singleTextInput/SingleTextInput";
 import { FaPlus, FaMinus } from "react-icons/fa";
-
-/* 
-	Important Note: The endpoint for the deployed database API being used does not have grades.
-	Ideally, each student should have their own grades in the database.
-	This variable for `grades` is being hardcoded as an array, so that the app functionality does not break.
-*/
-const grades: string[] = ["78", "100", "92", "86", "89", "88", "91", "87"];
 
 interface Student {
 	id: number;
-	firstname: string;
-	lastname: string;
+	// firstname: string;
+	// lastname: string;
+	firstName: string;
+	lastName: string;
 	company: string;
 	skill: string;
 	pic: string;
 	city: string;
 	email: string;
+	grades?: string[];
 }
 
 // each student has the Student interface
@@ -29,18 +26,24 @@ interface StudentCard {
 const StudentCard = ({ student }: StudentCard) => {
 	// props deconstructed
 	const {
-		firstname,
-		lastname,
+		// firstname,
+		// lastname,
+		firstName,
+		lastName,
 		company,
 		skill,
 		pic,
 		// city,
 		email,
-		// grades
+		grades = [],
 	} = student;
 
 	// hooks
 	const [showGrades, setShowGrades] = useState<boolean>(false);
+	const [tags, setTags] = useState<string[]>([]);
+	const [tag, setTag] = useState<string>("");
+
+	// console.log("tag:", tag);
 
 	// functions
 	const calculateAverage = (grades: string[]) => {
@@ -63,11 +66,13 @@ const StudentCard = ({ student }: StudentCard) => {
 		<div className="studentCard">
 			<Link to={`/students/${student.id}`} state={{ student: student }}>
 				<div className="studentCard__profilePic">
-					<img src={pic} alt={`${firstname} photo`} />
+					{/* <img src={pic} alt={`${firstname} photo`} /> */}
+					<img src={pic} alt={`${firstName} photo`} />
 				</div>
 				<div className="studentCard__info">
 					<div className="studentCard__name">
-						{`${firstname}  ${lastname}`}
+						{/* {`${firstname}  ${lastname}`} */}
+						{`${firstName}  ${lastName}`}
 					</div>
 					<div className="studentCard__infoLine">Email: {email}</div>
 					<div className="studentCard__infoLine">
@@ -108,6 +113,30 @@ const StudentCard = ({ student }: StudentCard) => {
 					)}
 				</div>
 			</Link>
+			<div className="studentCard__tagCollection">
+				<div className="studentCard__tags">
+					{tags.map((tag, index) => {
+						return (
+							<span
+								className="studentCard__tag"
+								key={tag + index}
+							>
+								{tag}
+							</span>
+						);
+					})}
+				</div>
+				<div className="studentCard__tagInput">
+					<SingleTextInput
+						onSubmit={setTags}
+						collection={tags}
+						searchTerm={tag}
+						setSearchTerm={setTag}
+						width="26%"
+						placeholder="Add a tag"
+					/>
+				</div>
+			</div>
 		</div>
 	);
 };
