@@ -1,10 +1,11 @@
 import React, {
-	useState, 
-	// useEffect 
+	useState,
+	// useEffect
 } from "react";
 import { Link } from "react-router-dom";
 import "./StudentCard.scss";
 import SingleTextInput from "../singleTextInput/SingleTextInput";
+import EmptyView from "../emptyView/EmptyView";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { AiOutlineReload } from "react-icons/ai";
 
@@ -31,6 +32,7 @@ interface StudentCard {
 const StudentCard = ({ student }: StudentCard) => {
 	// props deconstructed
 	const {
+		id,
 		firstName,
 		lastName,
 		company,
@@ -77,15 +79,16 @@ const StudentCard = ({ student }: StudentCard) => {
 		} else {
 			setGradesLoading(true);
 
-			// fetch(API)
+			// fetch(`${API}/students/${id}/grades`)
 			// 	.then((response) => response.json())
 			// 	.then((data) => {
 			// 		setGrades(data);
+			//     setShowGrades(true);
 			// 		setGradesLoading(false);
 			// 	});
 		}
 	};
-	console.log("GRADES:", grades);
+	// console.log("GRADES:", grades);
 
 	// useEffect(() => {
 	// 	if (grades.length) {
@@ -95,7 +98,7 @@ const StudentCard = ({ student }: StudentCard) => {
 
 	return (
 		<div className="studentCard">
-			<Link to={`/students/${student.id}`} state={{ student: student }}>
+			<Link to={`/students/${id}`} state={{ student: student }}>
 				<div className="studentCard__profilePic">
 					<img src={pic} alt={`${firstName} photo`} />
 				</div>
@@ -112,18 +115,25 @@ const StudentCard = ({ student }: StudentCard) => {
 						className="studentCard__gradesList"
 						style={{ display: showGrades ? "block" : "none" }}
 					>
-						<div className="studentCard__gradeAverage">
-							Average: {grades.length && calculateAverage(grades)}
-							%
-						</div>
-						{grades.map((grade: string, index: number) => {
-							return (
-								<div key={index}>
-									<span>Test {index + 1}:</span>
-									<span>{grade}%</span>
+						{grades.length > 0 && (
+							<>
+								<div className="studentCard__gradeAverage">
+									Average:{" "}
+									{grades.length && calculateAverage(grades)}%
 								</div>
-							);
-						})}
+								{grades.map((grade: string, index: number) => {
+									return (
+										<div key={index}>
+											<span>Test {index + 1}:</span>
+											<span>{grade}%</span>
+										</div>
+									);
+								})}
+							</>
+						)}
+						{grades.length === 0 && (
+							<EmptyView text="No Grades for this Student" />
+						)}
 					</div>
 				</div>
 				<div className="studentCard__toggleIcons">
