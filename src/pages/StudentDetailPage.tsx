@@ -5,8 +5,6 @@ import StudentCard from "../components/studentCard/StudentCard";
 
 interface Student {
 	id: number;
-	// firstname: string;
-	// lastname: string;
 	firstName: string;
 	lastName: string;
 	company: string;
@@ -18,8 +16,6 @@ interface Student {
 
 const initialStudent: Student = {
 	id: 0,
-	// firstname: "",
-	// lastname: "",
 	firstName: "",
 	lastName: "",
 	company: "",
@@ -48,11 +44,19 @@ const StudentDetailPage = () => {
 			fetch(`${API}/students/${studentId}`)
 				.then((response) => response.json())
 				.then((data) => {
-					console.log("StudentDetailPage data:", data.data)
 					setStudent(data.data);
 				});
 		}
 	}, [location.state?.student, studentId]);
+
+	// delete student
+	// add icon on detail page (ie. garbage can)
+	// on click open confirm dialogue
+	// on cancel, close dialogue
+	// on confirm, show loader while delete happens
+	// on error, show toast that delete was not successful
+	// on success, redirect to home page
+	// and show toast that user was deleted
 
 	return (
 		<div className="studentDetailPage">

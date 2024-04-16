@@ -37,9 +37,6 @@
 
 	&__infoLine {
 		@extend %gray-and-indented;
-		padding-left: 15px;
-		font-size: 14px;
-		color: $highlight-gray;
 		line-height: 20px;
 	}
 
@@ -57,11 +54,15 @@
 		display: none;
 	}
 
+	&__tagCollectionRow {
+		display: flex;
+	}
+
 	&__tagCollection {
 		@extend %gray-and-indented;
 		padding-top: 12px;
 		margin-left: 24%;
-		width: 70%;
+		width: 62%;
 	}
 
 	&__tag {
@@ -73,19 +74,27 @@
 		margin: 0 5px 5px 0;
 	}
 
-	&__toggleIcons {
-		color: $shadow-gray;
-		padding-top: 8px;
+	&__actionIcons {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 	}
 
-	&__toggleIcon {
+	&__toggleIcon,
+	&__trashIcon {
 		cursor: pointer;
+		color: $shadow-gray;
+		padding-top: 8px;
 		&:hover {
 			color: black;
 		}
 		&-spinning {
 			animation: spin-animation 1.2s infinite;
 		}
+	}
+
+	&__trashIcon {
+		padding-top: 20px;
 	}
 
 	@keyframes spin-animation {
