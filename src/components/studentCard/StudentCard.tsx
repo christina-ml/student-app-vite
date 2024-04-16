@@ -42,7 +42,7 @@ const StudentCard = ({ student }: StudentCard) => {
 	} = student;
 
 	// hooks
-	// const [grades, setGrades] = useState<string[]>(["10", "20"]);
+	// const [grades, setGrades] = useState<string[]>([]);
 	const [showGrades, setShowGrades] = useState<boolean>(false);
 	const [gradesLoading, setGradesLoading] = useState<boolean>(false);
 	const [tags, setTags] = useState<string[]>([]);
