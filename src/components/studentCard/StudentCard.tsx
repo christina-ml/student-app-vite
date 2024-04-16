@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, {
+	useState, 
+	// useEffect 
+} from "react";
 import { Link } from "react-router-dom";
 import "./StudentCard.scss";
 import SingleTextInput from "../singleTextInput/SingleTextInput";
 import { FaPlus, FaMinus } from "react-icons/fa";
+import { AiOutlineReload } from "react-icons/ai";
 
 interface Student {
 	id: number;
-	// firstname: string;
-	// lastname: string;
 	firstName: string;
 	lastName: string;
 	company: string;
 	skill: string;
 	pic: string;
-	city: string;
+	city?: string;
 	email: string;
 	grades?: string[];
 }
@@ -23,11 +25,12 @@ interface StudentCard {
 	student: Student;
 }
 
+// API URL
+// const API = import.meta.env.VITE_API_URL;
+
 const StudentCard = ({ student }: StudentCard) => {
 	// props deconstructed
 	const {
-		// firstname,
-		// lastname,
 		firstName,
 		lastName,
 		company,
@@ -39,11 +42,11 @@ const StudentCard = ({ student }: StudentCard) => {
 	} = student;
 
 	// hooks
+	// const [grades, setGrades] = useState<string[]>(["10", "20"]);
 	const [showGrades, setShowGrades] = useState<boolean>(false);
+	const [gradesLoading, setGradesLoading] = useState<boolean>(false);
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string>("");
-
-	// console.log("tag:", tag);
 
 	// functions
 	const calculateAverage = (grades: string[]) => {
@@ -56,22 +59,48 @@ const StudentCard = ({ student }: StudentCard) => {
 		return sum / grades.length;
 	};
 
-	const toggleGrades = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
+	const hideGrades = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
 		e.stopPropagation();
 		e.preventDefault();
-		setShowGrades(!showGrades);
+		setShowGrades(false);
 	};
+
+	const fetchAndShowGrades = (
+		e: React.MouseEvent<SVGElement, MouseEvent>
+	) => {
+		e.stopPropagation();
+		e.preventDefault();
+
+		// do we already have the grades?
+		if (grades.length > 0) {
+			setShowGrades(true);
+		} else {
+			setGradesLoading(true);
+
+			// fetch(API)
+			// 	.then((response) => response.json())
+			// 	.then((data) => {
+			// 		setGrades(data);
+			// 		setGradesLoading(false);
+			// 	});
+		}
+	};
+	console.log("GRADES:", grades);
+
+	// useEffect(() => {
+	// 	if (grades.length) {
+	// 		setShowGrades(!showGrades);
+	// 	}
+	// }, [grades, showGrades]);
 
 	return (
 		<div className="studentCard">
 			<Link to={`/students/${student.id}`} state={{ student: student }}>
 				<div className="studentCard__profilePic">
-					{/* <img src={pic} alt={`${firstname} photo`} /> */}
 					<img src={pic} alt={`${firstName} photo`} />
 				</div>
 				<div className="studentCard__info">
 					<div className="studentCard__name">
-						{/* {`${firstname}  ${lastname}`} */}
 						{`${firstName}  ${lastName}`}
 					</div>
 					<div className="studentCard__infoLine">Email: {email}</div>
@@ -79,13 +108,14 @@ const StudentCard = ({ student }: StudentCard) => {
 						Company: {company}
 					</div>
 					<div className="studentCard__infoLine">Skill: {skill}</div>
-					<div className="studentCard__infoLine">
-						Average: {calculateAverage(grades)}%
-					</div>
 					<div
 						className="studentCard__gradesList"
 						style={{ display: showGrades ? "block" : "none" }}
 					>
+						<div className="studentCard__gradeAverage">
+							Average: {grades.length && calculateAverage(grades)}
+							%
+						</div>
 						{grades.map((grade: string, index: number) => {
 							return (
 								<div key={index}>
@@ -97,17 +127,23 @@ const StudentCard = ({ student }: StudentCard) => {
 					</div>
 				</div>
 				<div className="studentCard__toggleIcons">
-					{!showGrades && (
-						<FaPlus
-							className="studentCard__toggleIcon"
-							onClick={(e) => toggleGrades(e)}
+					{gradesLoading && (
+						<AiOutlineReload
+							className="studentCard__toggleIcon-spinning"
 							size="1.8em"
 						/>
 					)}
-					{showGrades && (
+					{!showGrades && !gradesLoading && (
+						<FaPlus
+							className="studentCard__toggleIcon"
+							onClick={(e) => fetchAndShowGrades(e)}
+							size="1.8em"
+						/>
+					)}
+					{showGrades && !gradesLoading && (
 						<FaMinus
 							className="studentCard__toggleIcon"
-							onClick={(e) => toggleGrades(e)}
+							onClick={(e) => hideGrades(e)}
 							size="1.8em"
 						/>
 					)}
