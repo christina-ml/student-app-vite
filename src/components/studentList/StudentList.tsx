@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 // import SearchBar from "../searchBar/SearchBar";
 import SingleTextInput from "../singleTextInput/SingleTextInput";
 import StudentCard from "../studentCard/StudentCard";
 import EmptyView from "../emptyView/EmptyView";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 import "./StudentList.scss";
 
 // API URL
@@ -20,14 +23,21 @@ interface Student {
 }
 
 const StudentList = () => {
+	const location = useLocation();
+
 	// hooks
 	const [studentsList, setStudentList] = useState<Student[]>([]);
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
+	const [showSnackbar, setShowSnackbar] = useState<boolean>(false);
 
 	// functions
 	useEffect(() => {
 		setLoading(true);
+
+		if (location?.state?.studentName) {
+			setShowSnackbar(true);
+		}
 
 		// reach out to the backend
 		fetch(API)
@@ -58,6 +68,16 @@ const StudentList = () => {
 	// return or TSX
 	return (
 		<div className="studentList">
+			<Snackbar
+				open={showSnackbar}
+				anchorOrigin={{ vertical: "top", horizontal: "center" }}
+				autoHideDuration={1500}
+				onClose={() => setShowSnackbar(false)}
+			>
+				<Alert>
+					{location?.state?.studentName} was successfully deleted.
+				</Alert>
+			</Snackbar>
 			<SingleTextInput
 				searchTerm={searchTerm}
 				setSearchTerm={setSearchTerm}
@@ -66,7 +86,9 @@ const StudentList = () => {
 				return <StudentCard key={student.id} student={student} />;
 			})}
 			{loading && <EmptyView center={{}} text="Loading..." />}
-			{!loading && filteredStudents.length === 0 && <EmptyView center={{}} />}
+			{!loading && filteredStudents.length === 0 && (
+				<EmptyView center={{}} />
+			)}
 		</div>
 	);
 };
