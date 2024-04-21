@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 
 import StudentCard from "../components/studentCard/StudentCard";
-import StudentUpdateForm from "../components/studentUpdateForm/StudentUpdateForm";
+import StudentForm from "../components/studentForm/StudentForm";
 
 interface Student {
 	id: number;
@@ -69,7 +69,7 @@ const StudentDetailPage = () => {
 				<StudentCard student={student} showDelete />
 			)}
 			{Object.keys(student).length > 0 && (
-				<StudentUpdateForm student={student} setStudent={setStudent} />
+				<StudentForm student={student} setStudent={setStudent} />
 			)}
 		</div>
 	);
