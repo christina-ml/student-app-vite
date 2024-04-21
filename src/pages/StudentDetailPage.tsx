@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import {
+	useParams,
+	// useLocation
+} from "react-router-dom";
 
 import StudentCard from "../components/studentCard/StudentCard";
 import StudentUpdateForm from "../components/studentUpdateForm/StudentUpdateForm";
@@ -11,8 +14,9 @@ interface Student {
 	company: string;
 	skill: string;
 	pic: string;
-	city: string;
+	city?: string;
 	email: string;
+	grades?: string[];
 }
 
 const initialStudent: Student = {
@@ -31,7 +35,7 @@ const API = import.meta.env.VITE_API_URL;
 
 const StudentDetailPage = () => {
 	const params = useParams();
-	const location = useLocation();
+	// const location = useLocation();
 	const [student, setStudent] = useState<Student>(initialStudent);
 
 	const studentId: string | undefined = params.studentId;
@@ -39,16 +43,17 @@ const StudentDetailPage = () => {
 	// with the student Id, we can fetch student info
 	// from our API
 	useEffect(() => {
-		if (location.state?.student) {
-			setStudent(location.state?.student);
-		} else {
-			fetch(`${API}/students/${studentId}`)
-				.then((response) => response.json())
-				.then((data) => {
-					setStudent(data.data);
-				});
-		}
-	}, [location.state?.student, studentId]);
+		// if (location.state?.student) {
+		// 	setStudent(location.state?.student);
+		// }
+
+		fetch(`${API}/students/${studentId}`)
+			.then((response) => response.json())
+			.then((data) => {
+				setStudent(data.data);
+			});
+		// }
+	}, []);
 
 	// update student
 	// create update componentn
@@ -56,6 +61,7 @@ const StudentDetailPage = () => {
 	// on submit, show loader
 	// on success show toast
 	// on fail show toast (error)s
+	// update data on student page
 
 	return (
 		<div className="studentDetailPage">
@@ -63,7 +69,7 @@ const StudentDetailPage = () => {
 				<StudentCard student={student} showDelete />
 			)}
 			{Object.keys(student).length > 0 && (
-				<StudentUpdateForm student={student} />
+				<StudentUpdateForm student={student} setStudent={setStudent} />
 			)}
 		</div>
 	);

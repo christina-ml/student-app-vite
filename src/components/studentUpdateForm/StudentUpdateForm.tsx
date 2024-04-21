@@ -21,12 +21,13 @@ interface Student {
 // each student has the Student interface
 interface StudentUpdateFormProps {
 	student: Student;
+	setStudent: React.Dispatch<React.SetStateAction<Student>>;
 }
 
 // API URL
 const API = import.meta.env.VITE_API_URL;
 
-const StudentUpdateForm = ({ student }: StudentUpdateFormProps) => {
+const StudentUpdateForm = ({ student, setStudent }: StudentUpdateFormProps) => {
 	const [firstname, setFirstname] = useState<string>(student.firstName);
 	const [lastname, setLastname] = useState<string>(student.lastName);
 	const [company, setCompany] = useState<string>(student.company);
@@ -36,6 +37,7 @@ const StudentUpdateForm = ({ student }: StudentUpdateFormProps) => {
 	const [anyChanges, setAnyChanges] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [showSnackbar, setShowSnackbar] = useState<boolean>(false);
+	const [successfulUpdate, setSuccessfulUpdate] = useState<boolean>(false);
 
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -94,10 +96,10 @@ const StudentUpdateForm = ({ student }: StudentUpdateFormProps) => {
 			.then((response) => response.json())
 			.then((data) => {
 				// success state
-				console.log(data);
+				setStudent(data);
 				setAnyChanges(false);
-				// show success toast
-				//TODO
+				setSuccessfulUpdate(true);
+				setShowSnackbar(true);
 
 				// error state
 				//TODO
@@ -108,9 +110,17 @@ const StudentUpdateForm = ({ student }: StudentUpdateFormProps) => {
 			.catch(() => {
 				setLoading(false);
 				// let user know an error has occurred
+				setSuccessfulUpdate(false);
 				setShowSnackbar(true);
 			});
 	};
+
+	const errorElement = (
+		<Alert severity="error">
+			An error occurred while updating — try again later.
+		</Alert>
+	);
+	const successElement = <Alert>Student was updated successfully!</Alert>;
 
 	return (
 		<div className="studentUpdateForm">
@@ -120,9 +130,7 @@ const StudentUpdateForm = ({ student }: StudentUpdateFormProps) => {
 				autoHideDuration={1500}
 				onClose={() => setShowSnackbar(false)}
 			>
-				<Alert severity="error">
-					An error occurred while updating — try again later.
-				</Alert>
+				{successfulUpdate ? successElement : errorElement}
 			</Snackbar>
 			<div className="studentUpdateForm__title">Update Student</div>
 			<div className="studentUpdateForm__inputs">
