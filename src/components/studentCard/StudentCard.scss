@@ -1,5 +1,6 @@
 @import "../../designUtils/colors";
 @import "../../designUtils/fontDesign";
+@import '../../designUtils/animations';
 
 .studentCard {
 	padding: 10px;
@@ -89,21 +90,12 @@
 			color: black;
 		}
 		&-spinning {
-			animation: spin-animation 1.2s infinite;
+			@extend %spinning-icon;
 		}
 	}
 
 	&__trashIcon {
 		padding-top: 20px;
-	}
-
-	@keyframes spin-animation {
-		0% {
-			transform: rotate(0deg);
-		}
-		100% {
-			transform: rotate(359deg);
-		}
 	}
 
 	@media only screen and (max-width: 440px) {

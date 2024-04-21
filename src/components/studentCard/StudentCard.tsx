@@ -243,13 +243,13 @@ const StudentCard = ({ student, showDelete = false }: StudentCard) => {
 								size="1.8em"
 							/>
 						)}
-						{!showGrades && !deleteUserLoading && (
+						{!deleteUserLoading && 
 							<FaTrash
 								className="studentCard__trashIcon"
 								onClick={() => showDeleteUserDialogue()}
 								size="1.8em"
 							/>
-						)}
+						}
 					</div>
 				)}
 			</div>
