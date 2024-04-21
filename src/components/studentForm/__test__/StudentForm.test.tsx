@@ -1,6 +1,6 @@
 import { test, expect } from "vitest";
 import React, { Dispatch, SetStateAction } from "react";
-import StudentUpdateForm from "../StudentUpdateForm";
+import StudentForm from "../StudentForm";
 
 // Define a generic type for the initialState parameter
 type InitialState<S> = S | (() => S);
@@ -21,7 +21,7 @@ const useStateMockImplementation: UseStateMock =
 		return [state, setState];
 	};
 
-test("StudentUpdateForm component renders without crashing", () => {
+test("StudentForm component renders without crashing", () => {
 	// Mock useState
 	const useStateOriginal = React.useState;
 	React.useState = useStateMockImplementation;
@@ -38,11 +38,11 @@ test("StudentUpdateForm component renders without crashing", () => {
 		email: "john.doe@example.com",
 	};
 
-	// Instantiate the StudentUpdateForm component
-	const studentUpdateForm = <StudentUpdateForm student={student} />;
+	// Instantiate the StudentForm component
+	const studentForm = <StudentForm student={student} setStudent={useStateOriginal} />;
 
 	// Check if the component renders without crashing
-	expect(studentUpdateForm).toBeTruthy();
+	expect(studentForm).toBeTruthy();
 
 	// Restore original useState implementation
 	React.useState = useStateOriginal;

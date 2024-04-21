@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import { AiOutlineReload } from "react-icons/ai";
-import "./StudentUpdateForm.scss";
+import "./StudentForm.scss";
 
 interface Student {
 	id: number;
@@ -19,15 +19,22 @@ interface Student {
 }
 
 // each student has the Student interface
-interface StudentUpdateFormProps {
+interface StudentFormProps {
 	student: Student;
 	setStudent: React.Dispatch<React.SetStateAction<Student>>;
+	title?: string;
+	method?: string;
 }
 
 // API URL
 const API = import.meta.env.VITE_API_URL;
 
-const StudentUpdateForm = ({ student, setStudent }: StudentUpdateFormProps) => {
+const StudentForm = ({
+	student,
+	setStudent,
+	title = "Update",
+	method = "PUT",
+}: StudentFormProps) => {
 	const [firstname, setFirstname] = useState<string>(student.firstName);
 	const [lastname, setLastname] = useState<string>(student.lastName);
 	const [company, setCompany] = useState<string>(student.company);
@@ -79,7 +86,7 @@ const StudentUpdateForm = ({ student, setStudent }: StudentUpdateFormProps) => {
 		// what http method are we using
 
 		const requestOptions = {
-			method: "PUT",
+			method,
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
 				firstname,
@@ -115,15 +122,16 @@ const StudentUpdateForm = ({ student, setStudent }: StudentUpdateFormProps) => {
 			});
 	};
 
+	const action = method === "PUT" ? "updating student" : "adding student";
 	const errorElement = (
 		<Alert severity="error">
-			An error occurred while updating — try again later.
+			An error occurred while {action} — please try again later.
 		</Alert>
 	);
 	const successElement = <Alert>Student was updated successfully!</Alert>;
 
 	return (
-		<div className="studentUpdateForm">
+		<div className="studentForm">
 			<Snackbar
 				open={showSnackbar}
 				anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -132,8 +140,8 @@ const StudentUpdateForm = ({ student, setStudent }: StudentUpdateFormProps) => {
 			>
 				{successfulUpdate ? successElement : errorElement}
 			</Snackbar>
-			<div className="studentUpdateForm__title">Update Student</div>
-			<div className="studentUpdateForm__inputs">
+			<div className="studentForm__title">{title} Student</div>
+			<div className="studentForm__inputs">
 				<TextField
 					id="outlined-basic"
 					label="First Name"
@@ -183,7 +191,7 @@ const StudentUpdateForm = ({ student, setStudent }: StudentUpdateFormProps) => {
 					onChange={(e) => handleChange(e)}
 				/>
 			</div>
-			<div className="studentUpdateForm__submit">
+			<div className="studentForm__submit">
 				<Button
 					variant="contained"
 					size="large"
@@ -191,7 +199,7 @@ const StudentUpdateForm = ({ student, setStudent }: StudentUpdateFormProps) => {
 					onClick={handleSubmit}
 					endIcon={
 						loading && (
-							<AiOutlineReload className="studentUpdateForm__submitLoader-spinning" />
+							<AiOutlineReload className="studentForm__submitLoader-spinning" />
 						)
 					}
 				>
@@ -202,4 +210,4 @@ const StudentUpdateForm = ({ student, setStudent }: StudentUpdateFormProps) => {
 	);
 };
 
-export default StudentUpdateForm;
+export default StudentForm;
