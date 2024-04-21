@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 
 import StudentCard from "../components/studentCard/StudentCard";
+import StudentUpdateForm from "../components/studentUpdateForm/StudentUpdateForm";
 
 interface Student {
 	id: number;
@@ -49,19 +50,20 @@ const StudentDetailPage = () => {
 		}
 	}, [location.state?.student, studentId]);
 
-	// delete student
-	// add icon on detail page (ie. garbage can)
-	// on click open confirm dialogue
-	// on cancel, close dialogue
-	// on confirm, show loader while delete happens
-	// on error, show toast that delete was not successful
-	// on success, redirect to home page
-	// and show toast that user was deleted
+	// update student
+	// create update componentn
+	// with form for all fields
+	// on submit, show loader
+	// on success show toast
+	// on fail show toast (error)s
 
 	return (
 		<div className="studentDetailPage">
 			{Object.keys(student).length > 0 && (
-				<StudentCard student={student} />
+				<StudentCard student={student} showDelete />
+			)}
+			{Object.keys(student).length > 0 && (
+				<StudentUpdateForm student={student} />
 			)}
 		</div>
 	);
