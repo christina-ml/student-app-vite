@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-// import SearchBar from "../searchBar/SearchBar";
 import SingleTextInput from "../singleTextInput/SingleTextInput";
 import StudentCard from "../studentCard/StudentCard";
 import EmptyView from "../emptyView/EmptyView";

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
+import TextField from "@mui/material/TextField";
 import { AiOutlineReload } from "react-icons/ai";
 import "./StudentForm.scss";
 
@@ -35,6 +36,8 @@ const StudentForm = ({
 	title = "Update",
 	method = "PUT",
 }: StudentFormProps) => {
+	const navigate = useNavigate();
+
 	const [firstname, setFirstname] = useState<string>(student.firstName);
 	const [lastname, setLastname] = useState<string>(student.lastName);
 	const [company, setCompany] = useState<string>(student.company);
@@ -80,7 +83,11 @@ const StudentForm = ({
 		setLoading(true);
 
 		// set our target url
-		const url = `${API}/students/${student.id}`;
+		let url: string = `${API}/students`;
+
+		if (method === "PUT") {
+			url += `/${student.id}`;
+		}
 
 		// what data are we passing to our backend?
 		// what http method are we using
@@ -102,17 +109,22 @@ const StudentForm = ({
 		fetch(url, requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
-				// success state
-				setStudent(data);
-				setAnyChanges(false);
-				setSuccessfulUpdate(true);
-				setShowSnackbar(true);
-
-				// error state
-				//TODO
-
-				// set loading to false
-				setLoading(false);
+				if (method === 'POST'){
+					// we are adding a new student
+                    // redirect to new student detail page
+					navigate(`/students/${data.id}`, { 
+                        state: {
+                            fromCreateStudent: true, 
+                            studentName: `${data.firstname} ${data.lastname}`
+                        }
+                    });
+                } else  { // updating student 
+                    setStudent(data);
+                    setAnyChanges(false);
+                    setSuccessfulUpdate(true);
+                    setShowSnackbar(true);    
+                    setLoading(false);
+                }
 			})
 			.catch(() => {
 				setLoading(false);
