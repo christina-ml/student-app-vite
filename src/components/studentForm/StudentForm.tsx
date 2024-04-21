@@ -41,9 +41,10 @@ const StudentForm = ({
 	const [firstname, setFirstname] = useState<string>(student.firstName);
 	const [lastname, setLastname] = useState<string>(student.lastName);
 	const [company, setCompany] = useState<string>(student.company);
-	const [city, setCity] = useState<string | undefined>(student.city);
 	const [skill, setSkill] = useState<string>(student.skill);
 	const [pic, setPic] = useState<string>(student.pic);
+	const [city, setCity] = useState<string | undefined>(student.city);
+	const [email, setEmail] = useState<string>(student.email);
 	const [anyChanges, setAnyChanges] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [showSnackbar, setShowSnackbar] = useState<boolean>(false);
@@ -66,14 +67,17 @@ const StudentForm = ({
 			case "company":
 				setCompany(e.target.value);
 				break;
-			case "city":
-				setCity(e.target.value);
-				break;
 			case "skill":
 				setSkill(e.target.value);
 				break;
 			case "pic":
 				setPic(e.target.value);
+				break;
+			case "city":
+				setCity(e.target.value);
+				break;
+			case "email":
+				setEmail(e.target.value);
 				break;
 		}
 	};
@@ -102,6 +106,7 @@ const StudentForm = ({
 				city,
 				skill,
 				pic,
+				email,
 			}),
 		};
 
@@ -109,22 +114,23 @@ const StudentForm = ({
 		fetch(url, requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
-				if (method === 'POST'){
+				if (method === "POST") {
 					// we are adding a new student
-                    // redirect to new student detail page
-					navigate(`/students/${data.id}`, { 
-                        state: {
-                            fromCreateStudent: true, 
-                            studentName: `${data.firstname} ${data.lastname}`
-                        }
-                    });
-                } else  { // updating student 
-                    setStudent(data);
-                    setAnyChanges(false);
-                    setSuccessfulUpdate(true);
-                    setShowSnackbar(true);    
-                    setLoading(false);
-                }
+					// redirect to new student detail page
+					navigate(`/students/${data.id}`, {
+						state: {
+							fromCreateStudent: true,
+							studentName: `${data.firstname} ${data.lastname}`,
+						},
+					});
+				} else {
+					// updating student
+					setStudent(data);
+					setAnyChanges(false);
+					setSuccessfulUpdate(true);
+					setShowSnackbar(true);
+					setLoading(false);
+				}
 			})
 			.catch(() => {
 				setLoading(false);
@@ -168,6 +174,14 @@ const StudentForm = ({
 					variant="outlined"
 					value={lastname}
 					name="lastname"
+					onChange={(e) => handleChange(e)}
+				/>
+				<TextField
+					id="outlined-basic"
+					label="Email"
+					variant="outlined"
+					value={email}
+					name="email"
 					onChange={(e) => handleChange(e)}
 				/>
 				<TextField

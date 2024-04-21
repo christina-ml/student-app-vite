@@ -9,6 +9,14 @@
 	padding: 0 20%;
 	border-bottom: $shadow-gray 2px solid;
 
+	&__links {
+		display: flex;
+		justify-content: space-between;
+		line-height: 60px;
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
 	a {
 		text-decoration: none;
 		color: black;
@@ -31,6 +39,12 @@
 
 	&__toggleIcon {
 		display: none;
+	}
+
+	@media only screen and (max-width: 840px) {
+		&__links {
+			padding: 0 15px;
+		}
 	}
 
 	@media only screen and (max-width: 440px) {
