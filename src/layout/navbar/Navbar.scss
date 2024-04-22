@@ -2,12 +2,17 @@
 
 .navbar {
 	background-color: white;
-	display: flex;
-	justify-content: space-between;
 	height: 60px;
-	line-height: 60px;
-	padding: 0 20%;
 	border-bottom: $shadow-gray 2px solid;
+
+	&__overlay {
+		position: absolute;
+		background-color: rgba(0, 0, 0, 0.45);
+		width: 100%;
+		height: 100%;
+		top: 60px;
+		z-index: 2;
+	}
 
 	&__links {
 		display: flex;
@@ -15,11 +20,7 @@
 		line-height: 60px;
 		max-width: 800px;
 		margin: 0 auto;
-	}
-
-	a {
-		text-decoration: none;
-		color: black;
+		cursor: default;
 	}
 
 	&__logo {
@@ -48,10 +49,29 @@
 	}
 
 	@media only screen and (max-width: 440px) {
-		padding: 0 15px;
+		&__links {
+			padding: 0 20px;
+		}
 
 		&__menuItems {
 			display: none;
+			&-active {
+				display: block;
+				background-color: white;
+				width: -webkit-fill-available;
+				z-index: 10;
+				position: absolute;
+				margin-top: 60px;
+				left: 0;
+				border-bottom: 1px $shadow-gray solid;
+			}
+		}
+
+		&__menuItem {
+			padding: 0 20px;
+			&:not(:last-child) {
+				border-bottom: 1px solid $shadow-gray;
+			}
 		}
 
 		&__toggleIcon {

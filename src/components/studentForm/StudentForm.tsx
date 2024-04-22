@@ -229,7 +229,7 @@ const StudentForm = ({
 						)
 					}
 				>
-					Update
+					{title}
 				</Button>
 			</div>
 		</div>
