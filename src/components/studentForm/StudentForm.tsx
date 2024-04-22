@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import TextField from "@mui/material/TextField";
 import { AiOutlineReload } from "react-icons/ai";
+import { isValidEmail } from "../../utils/EmailValidation";
 import "./StudentForm.scss";
 
 interface Student {
@@ -45,6 +46,8 @@ const StudentForm = ({
 	const [pic, setPic] = useState<string>(student.pic);
 	const [city, setCity] = useState<string | undefined>(student.city);
 	const [email, setEmail] = useState<string>(student.email);
+	const [emailError, setEmailError] = useState<boolean>(false);
+	const [emailHelperText, setEmailHelperText] = useState<string>("");
 	const [anyChanges, setAnyChanges] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [showSnackbar, setShowSnackbar] = useState<boolean>(false);
@@ -83,6 +86,15 @@ const StudentForm = ({
 	};
 
 	const handleSubmit = () => {
+		if (!isValidEmail(email)) {
+			setEmailError(true);
+			setEmailHelperText("Invalid Email.");
+			return;
+		} else {
+			setEmailError(false);
+			setEmailHelperText("");
+		}
+
 		// loading state
 		setLoading(true);
 
@@ -182,6 +194,8 @@ const StudentForm = ({
 					variant="outlined"
 					value={email}
 					name="email"
+					error={emailError}
+					helperText={emailHelperText}
 					onChange={(e) => handleChange(e)}
 				/>
 				<TextField
