@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-// import { FaTags } from "react-icons/fa";
 import "./SingleTextInput.scss";
 
 interface SingleTextInputProps {
