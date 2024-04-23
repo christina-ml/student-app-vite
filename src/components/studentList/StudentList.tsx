@@ -19,6 +19,7 @@ interface Student {
 	pic: string;
 	city: string;
 	email: string;
+	tagArr: string[];
 }
 
 const StudentList = () => {
@@ -27,6 +28,7 @@ const StudentList = () => {
 	// hooks
 	const [studentsList, setStudentList] = useState<Student[]>([]);
 	const [searchTerm, setSearchTerm] = useState<string>("");
+	const [tagSearch, setTagSearch] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
 	const [showSnackbar, setShowSnackbar] = useState<boolean>(false);
 
@@ -42,6 +44,10 @@ const StudentList = () => {
 		fetch(API)
 			.then((response) => response.json())
 			.then((data) => {
+				for (const student of data.students) {
+					student.tagArr = [];
+				}
+
 				const studentData: Student[] = data.students;
 				setStudentList(studentData);
 				setLoading(false);
@@ -64,6 +70,19 @@ const StudentList = () => {
 		});
 	}
 
+	if (tagSearch) {
+		filteredStudents = filteredStudents.filter((student) => {
+			for (const tag of student.tagArr) {
+				const partialTag = tag.toLowerCase().slice(0, tagSearch.length);
+
+				if (partialTag === tagSearch.toLowerCase()) {
+					return true;
+				}
+			}
+			// return student.tagArr.includes(tagSearch.toLowerCase())
+		});
+	}
+
 	// return or TSX
 	return (
 		<div className="studentList">
@@ -78,6 +97,11 @@ const StudentList = () => {
 				</Alert>
 			</Snackbar>
 			<SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+			<SearchBar
+				searchTerm={tagSearch}
+				setSearchTerm={setTagSearch}
+				placeholder="Search by tag"
+			/>
 			{filteredStudents.map((student: Student) => {
 				return <StudentCard key={student.id} student={student} />;
 			})}

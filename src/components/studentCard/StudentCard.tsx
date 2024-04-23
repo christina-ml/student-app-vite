@@ -1,11 +1,12 @@
 import React, {
+	useEffect,
 	useState,
 	// useEffect
 } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DialogBox from "../dialogBox/DialogBox";
 import EmptyView from "../emptyView/EmptyView";
-import SingleTextInput from "../singleTextInput/SingleTextInput";
+import TagInputField from "../tagInputField/TagInputField";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
@@ -22,6 +23,7 @@ interface Student {
 	city?: string;
 	email: string;
 	grades?: string[];
+	tagArr?: string[];
 }
 
 // each student has the Student interface
@@ -48,17 +50,21 @@ const StudentCard = ({ student, showDelete = false }: StudentCard) => {
 		// city,
 		email,
 		grades = [],
+		tagArr = [],
 	} = student;
 
 	// hooks
 	// const [grades, setGrades] = useState<string[]>([]);
 	const [showGrades, setShowGrades] = useState<boolean>(false);
 	const [gradesLoading, setGradesLoading] = useState<boolean>(false);
-	const [tags, setTags] = useState<string[]>([]);
-	const [tag, setTag] = useState<string>("");
+	const [tags, setTags] = useState<string[]>(tagArr);
 	const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
 	const [deleteUserLoading, setDeleteUserLoading] = useState<boolean>(false);
 	const [showSnackbar, setShowSnackbar] = useState<boolean>(false);
+
+	useEffect(() => {
+        student.tagArr = tags;
+    }, [tags, student]);
 
 	// functions
 	const calculateAverage = (grades: string[]) => {
@@ -213,7 +219,7 @@ const StudentCard = ({ student, showDelete = false }: StudentCard) => {
 			<div className="studentCard__tagCollectionRow">
 				<div className="studentCard__tagCollection">
 					<div className="studentCard__tags">
-						{tags.map((tag, index) => {
+						{tags && tags.map((tag: string, index: number) => {
 							return (
 								<span
 									className="studentCard__tag"
@@ -225,13 +231,10 @@ const StudentCard = ({ student, showDelete = false }: StudentCard) => {
 						})}
 					</div>
 					<div className="studentCard__tagInput">
-						<SingleTextInput
-							onSubmit={setTags}
-							collection={tags}
-							searchTerm={tag}
-							setSearchTerm={setTag}
-							width="26%"
-							placeholder="Add a tag"
+						<TagInputField
+							setTags={setTags}
+							tags={tags}
+							id={student.id}
 						/>
 					</div>
 				</div>
@@ -243,13 +246,13 @@ const StudentCard = ({ student, showDelete = false }: StudentCard) => {
 								size="1.8em"
 							/>
 						)}
-						{!deleteUserLoading && 
+						{!deleteUserLoading && (
 							<FaTrash
 								className="studentCard__trashIcon"
 								onClick={() => showDeleteUserDialogue()}
 								size="1.8em"
 							/>
-						}
+						)}
 					</div>
 				)}
 			</div>
