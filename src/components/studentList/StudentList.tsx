@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { Student } from "../../utils/Types"; 
 import SearchBar from "../searchBar/SearchBar";
 import StudentCard from "../studentCard/StudentCard";
 import EmptyView from "../emptyView/EmptyView";
@@ -9,18 +10,6 @@ import "./StudentList.scss";
 
 // API URL
 const API = import.meta.env.VITE_API_URL;
-
-interface Student {
-	id: number;
-	firstName: string;
-	lastName: string;
-	company: string;
-	skill: string;
-	pic: string;
-	city: string;
-	email: string;
-	tagArr: string[];
-}
 
 const StudentList = () => {
 	const location = useLocation();

@@ -1,21 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import { Student } from "../utils/Types";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import StudentCard from "../components/studentCard/StudentCard";
 import StudentForm from "../components/studentForm/StudentForm";
-
-interface Student {
-	id: number;
-	firstName: string;
-	lastName: string;
-	company: string;
-	skill: string;
-	pic: string;
-	city?: string;
-	email: string;
-	grades?: string[];
-}
 
 const initialStudent: Student = {
 	id: 0,
@@ -26,6 +15,7 @@ const initialStudent: Student = {
 	pic: "",
 	city: "",
 	email: "",
+	tagArr: [],
 };
 
 // API URL

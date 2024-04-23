@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Student } from "../../utils/Types";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
@@ -7,18 +8,6 @@ import TextField from "@mui/material/TextField";
 import { AiOutlineReload } from "react-icons/ai";
 import { isValidEmail } from "../../utils/EmailValidation";
 import "./StudentForm.scss";
-
-interface Student {
-	id: number;
-	firstName: string;
-	lastName: string;
-	company: string;
-	skill: string;
-	pic: string;
-	city?: string;
-	email: string;
-	grades?: string[];
-}
 
 // each student has the Student interface
 interface StudentFormProps {

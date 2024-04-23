@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Student } from "../../utils/Types"; 
 import DialogBox from "../dialogBox/DialogBox";
 import EmptyView from "../emptyView/EmptyView";
 import TagInputField from "../tagInputField/TagInputField";
@@ -8,19 +9,6 @@ import Snackbar from "@mui/material/Snackbar";
 import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import { AiOutlineReload } from "react-icons/ai";
 import "./StudentCard.scss";
-
-interface Student {
-	id: number;
-	firstName: string;
-	lastName: string;
-	company: string;
-	skill: string;
-	pic: string;
-	city?: string;
-	email: string;
-	grades?: string[];
-	tagArr?: string[];
-}
 
 // each student has the Student interface
 interface StudentCard {

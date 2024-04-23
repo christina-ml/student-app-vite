@@ -1,16 +1,5 @@
 import StudentForm from "../components/studentForm/StudentForm";
-
-interface Student {
-    id: number;
-    firstName: string;
-    lastName: string;
-    company: string;
-    skill: string;
-    pic: string;
-    city?: string;
-    email: string;
-    grades?: string[];
-}
+import { Student } from "../utils/Types";
 
 const AddStudentPage = () => {
     // Define an initial empty student object
@@ -22,6 +11,7 @@ const AddStudentPage = () => {
         skill: "",
         pic: "",
         email: "",
+        tagArr: []
     };
 
     return (
