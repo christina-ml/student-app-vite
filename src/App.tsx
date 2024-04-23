@@ -7,19 +7,6 @@ import Contact from "./pages/Contact";
 import Home from "./pages/Home";
 import "./App.scss";
 
-// create new student
-
-// add button to student list page / home page
-
-// on click move to /students/new
-// showing form to create new student
-
-// on error
-// show toast with message to try again later
-// on succeess
-// redirect to student detail oage of new student
-// show succcess toast that student was created
-
 function App() {
 	return (
 		<div className="App">

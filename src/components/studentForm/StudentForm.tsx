@@ -106,7 +106,7 @@ const StudentForm = ({
 		}
 
 		// what data are we passing to our backend?
-		// what http method are we using
+		// what http method are we using?
 
 		const requestOptions = {
 			method,

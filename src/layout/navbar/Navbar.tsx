@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import "./Navbar.scss";
 
 const Navbar = () => {
@@ -20,11 +19,14 @@ const Navbar = () => {
 		setShowNavbarItems(!showNavbarItems);
 	};
 
-	const handleNavigation = (e) => {
+	const handleNavigation = (
+		e: React.MouseEvent<HTMLDivElement | HTMLLIElement, MouseEvent>
+	) => {
 		// close menu
 		setShowNavbarItems(false);
 		// navigate user to correct path
-		navigate(e.target.id);
+		const target = e.target as HTMLDivElement | HTMLLIElement;
+		navigate(target.id);
 	};
 
 	return (

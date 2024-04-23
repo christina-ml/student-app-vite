@@ -52,15 +52,7 @@ const StudentDetailPage = () => {
 				setStudent(data.data);
 			});
 		// }
-	}, []);
-
-	// update student
-	// create update componentn
-	// with form for all fields
-	// on submit, show loader
-	// on success show toast
-	// on fail show toast (error)s
-	// update data on student page
+	}, [location?.state?.fromCreateStudent, studentId]);
 
 	return (
 		<div className="studentDetailPage">

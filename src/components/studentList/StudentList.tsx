@@ -52,17 +52,13 @@ const StudentList = () => {
 				setStudentList(studentData);
 				setLoading(false);
 			});
-		// get our students
-		// update our students hook with the new data
-	}, []); // empty array means run on mount
+	}, [location?.state?.studentName]);
 
-	// when search term is updated, this component will rerender
-	// what to do on a re-render?
+	// when search term is updated, this component will re-render
 	let filteredStudents: Student[] = studentsList;
 
 	if (searchTerm) {
 		filteredStudents = studentsList.filter((student: Student) => {
-			// const fullName: string = `${student.firstname} ${student.lastname}`;
 			const fullName: string = `${student.firstName} ${student.lastName}`;
 			const fullNameToLowerCase: string = fullName.toLowerCase();
 			const searchTermToLowerCase: string = searchTerm.toLowerCase();
@@ -79,7 +75,6 @@ const StudentList = () => {
 					return true;
 				}
 			}
-			// return student.tagArr.includes(tagSearch.toLowerCase())
 		});
 	}
 

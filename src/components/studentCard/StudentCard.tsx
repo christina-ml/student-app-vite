@@ -1,8 +1,4 @@
-import React, {
-	useEffect,
-	useState,
-	// useEffect
-} from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DialogBox from "../dialogBox/DialogBox";
 import EmptyView from "../emptyView/EmptyView";
@@ -63,8 +59,8 @@ const StudentCard = ({ student, showDelete = false }: StudentCard) => {
 	const [showSnackbar, setShowSnackbar] = useState<boolean>(false);
 
 	useEffect(() => {
-        student.tagArr = tags;
-    }, [tags, student]);
+		student.tagArr = tags;
+	}, [tags, student]);
 
 	// functions
 	const calculateAverage = (grades: string[]) => {
@@ -119,7 +115,7 @@ const StudentCard = ({ student, showDelete = false }: StudentCard) => {
 		fetch(url, { method: "DELETE" })
 			.then((response) => response.json())
 			.then((data) => {
-				// redirect to home page
+				// redirect to home page passing state to show in toast
 				navigate("/", {
 					state: {
 						studentName: `${data.firstname} ${data.lastname}`,
@@ -135,12 +131,6 @@ const StudentCard = ({ student, showDelete = false }: StudentCard) => {
 				setShowSnackbar(true);
 			});
 	};
-
-	// useEffect(() => {
-	// 	if (grades.length) {
-	// 		setShowGrades(!showGrades);
-	// 	}
-	// }, [grades, showGrades]);
 
 	return (
 		<div className="studentCard">
@@ -219,21 +209,21 @@ const StudentCard = ({ student, showDelete = false }: StudentCard) => {
 			<div className="studentCard__tagCollectionRow">
 				<div className="studentCard__tagCollection">
 					<div className="studentCard__tags">
-						{tags && tags.map((tag: string, index: number) => {
-							return (
-								<span
-									className="studentCard__tag"
-									key={tag + index}
-								>
-									{tag}
-								</span>
-							);
-						})}
+						{tags &&
+							tags.map((tag: string, index: number) => {
+								return (
+									<span
+										className="studentCard__tag"
+										key={tag + index}
+									>
+										{tag}
+									</span>
+								);
+							})}
 					</div>
 					<div className="studentCard__tagInput">
 						<TagInputField
 							setTags={setTags}
-							tags={tags}
 							id={student.id}
 						/>
 					</div>
